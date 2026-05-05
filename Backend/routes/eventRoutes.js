@@ -15,7 +15,7 @@ const eventController = require('../controllers/eventController');
 
 router.get("/dates/:date", eventController.getEventsDate); 
 router.get("/", eventController.getEvents);                
-router.get("/:type", eventController.getEventsType);       
+router.get("/type/:type", eventController.getEventsType);       
 router.post("/addEvent", eventController.addEvent);
 router.put("/update/:id", eventController.updateEvent)
 router.delete("/delete/:id", eventController.eventDeletion);

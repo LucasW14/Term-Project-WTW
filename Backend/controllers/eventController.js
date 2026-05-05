@@ -99,11 +99,11 @@ async function addEvent(req, res) {
 
     const { type, event_date, time_start, duration, location, planner, event_name, description, ticket_price } = req.body;
 
-    if (id && type && event_date && time_start && duration && location && planner && event_name && description && ticket_price) {
+    if (type && event_date && time_start && duration && location && planner && event_name && description && ticket_price) {
 
         try {
 
-            const updatedEvent = await model.postEvent(type, event_date, time_start, duration, location, planner, event_name, description, ticket_price);
+            const newEvent = await model.postEvent(type, event_date, time_start, duration, location, planner, event_name, description, ticket_price);
             res.status(201).json(newEvent);
 
         } catch (err) {
