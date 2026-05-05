@@ -9,6 +9,16 @@ const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 const multer = require("multer");
+const path = require("path");
+
+
+// serve frontend build
+app.use(express.static(path.join(__dirname, "dist")));
+
+// handle React/Vite routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 require("./auth/passport");
 
@@ -18,7 +28,7 @@ require("./auth/passport");
 app.use(multer().none());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 // --------------------
 // CORS (MUST BE BEFORE ROUTES)
