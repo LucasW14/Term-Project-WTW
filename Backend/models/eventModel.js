@@ -1,6 +1,15 @@
 "use strict";
 const pool = require('./dbConnection');
 
+async function getEventById(id) {
+    const queryText = "SELECT * FROM events where id= $1";
+    const values = [id]; 
+    const result = await pool.query(queryText, values);
+    return result.rows[0];
+
+
+} 
+
 
 async function getEventsByType(params) {
     const queryText = "SELECT * FROM events where type= $1";
@@ -59,16 +68,50 @@ async function postEvent(type, event_date, time_start, duration, location, plann
     return result.rows;
 }
 
-  async function updateEvent (id, type, event_date, time_start, duration, location, planner, event_name, description, ticket_price) {
-    
-    let queryText = "UPDATE events SET type = $2, event_date = $3, time_start = $4, duration = $5, location = $6, planner = $7, event_name = $8, description = $9, ticket_price = $10 WHERE id = $1 RETURNING *";
+  async function updateEvent(id, type, event_date, time_start, duration, location, planner, event_name, description, ticket_price) {
 
-    let values = [type, event_date, time_start, duration, location, planner, event_name, description, ticket_price];
+  const queryText = `
+    UPDATE events
+    SET type = $2,
+        event_date = $3,
+        time_start = $4,
+        duration = $5,
+        location = $6,
+        planner = $7,
+        event_name = $8,
+        description = $9,
+        ticket_price = $10
+    WHERE id = $1
+    RETURNING *
+  `;
+
+  const values = [
+    id,
+    type,
+    event_date,
+    time_start,
+    duration,
+    location,
+    planner,
+    event_name,
+    description,
+    ticket_price
+  ];
+
+  const result = await pool.query(queryText, values);
+
+  return result.rows[0] || null;
+}
+
+async function deleteEvent(id){
+
+    let queryText = "DELETE FROM events WHERE id = $1 "
+    const values = [id];
     const result = await pool.query(queryText, values);
-    return result.rows;
+    return result.rows[0];
 
-};
 
+}
 
 
 
@@ -78,7 +121,9 @@ module.exports = {
     getAllEvents,
     postEvent,
     getEventsByDate,
-    updateEvent
+    updateEvent,
+    deleteEvent,
+    getEventById
 
 
 

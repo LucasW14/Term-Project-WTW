@@ -1,6 +1,33 @@
 "use strict";
 const model = require('../models/eventModel');
 
+
+async function getEventWithId(req, res) {
+    const id = req.params.id;
+
+    if (id) {
+
+        try {
+            const events = await model.getEventById(id);
+            res.json(events);
+
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Server error");
+        }
+
+
+    }
+
+    else {
+
+        res.status(400).send("Missing required id param")
+
+
+    }
+}
+
+
 async function getEventsType(req, res) {
     const type = req.params.type;
 
@@ -28,14 +55,14 @@ async function getEventsType(req, res) {
 
 async function getEvents(req, res) {
 
-        try {
-            const events = await model.getAllEvents();
-            res.json(events);
+    try {
+        const events = await model.getAllEvents();
+        res.json(events);
 
-        } catch (err) {
-            console.error(err);
-            res.status(500).send("Server error");
-        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
 
 }
 
@@ -68,57 +95,107 @@ async function getEventsDate(req, res) {
     }
 }
 
-async function addEvent(req, res){
+async function addEvent(req, res) {
 
     const { type, event_date, time_start, duration, location, planner, event_name, description, ticket_price } = req.body;
 
-    if(id && type && event_date && time_start && duration && location && planner && event_name && description && ticket_price){
-        
-    try{
+    if (id && type && event_date && time_start && duration && location && planner && event_name && description && ticket_price) {
 
-        const updatedEvent = await model.postEvent(type, event_date, time_start, duration, location, planner, event_name, description, ticket_price);
-        res.status(201).json(newEvent);
+        try {
 
-    } catch(err){
+            const updatedEvent = await model.postEvent(type, event_date, time_start, duration, location, planner, event_name, description, ticket_price);
+            res.status(201).json(newEvent);
 
-        console.error(err);
-        res.status(500).send("Server error");
+        } catch (err) {
+
+            console.error(err);
+            res.status(500).send("Server error");
+        }
+
     }
-
-    }
-    else{
+    else {
         res.status(400).send("Missing event fields")
 
-    }        
+    }
 
 
 
 }
 
-async function updateEvent(req, res){
+async function updateEvent(req, res) {
 
     const id = req.params.id;
 
     const { type, event_date, time_start, duration, location, planner, event_name, description, ticket_price } = req.body;
 
-    if(id && type && event_date && time_start && duration && location && planner && event_name && description && ticket_price){
-        
-    try{
+    if (
+        id &&
+        type &&
+        event_date &&
+        time_start &&
+        duration != null &&
+        location &&
+        planner &&
+        event_name &&
+        description &&
+        ticket_price != null
+    ) {
 
-        const updatedEvent = await model.updateEvent(id, type, event_date, time_start, duration, location, planner, event_name, description, ticket_price);
-        res.status(201).json(updatedEvent);
+        try {
 
-    } catch(err){
+            const updatedEvent = await model.updateEvent(id, type, event_date, time_start, duration, location, planner, event_name, description, ticket_price);
+            if (!updatedEvent) {
+                return res.status(404).json({ message: "Event not found" });
+            }
+            res.status(200).json(updatedEvent);
 
-        console.error(err);
-        res.status(500).send("Server error");
+        } catch (err) {
+
+            console.error(err);
+            res.status(500).send("Server error");
+        }
+
     }
-
-    }
-    else{
+    else {
         res.status(400).send("Missing event fields")
 
-    }        
+    }
+
+
+
+
+
+
+}
+
+async function eventDeletion(req, res) {
+
+    const id = req.params.id;
+
+    if (id) {
+
+        try {
+            const events = await model.deleteEvent(id);
+            res.json(events);
+
+
+
+        }
+        catch (err) {
+            console.error(err);
+            res.status(500).send("Server error");
+
+        }
+
+
+
+
+    }
+    else {
+        res.status(400).send("problem with id")
+
+    }
+
 
 
 
@@ -133,7 +210,9 @@ module.exports = {
     getEvents,
     addEvent,
     getEventsDate,
-    updateEvent
+    updateEvent,
+    eventDeletion,
+    getEventWithId
 
 
 
