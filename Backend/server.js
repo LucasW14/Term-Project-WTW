@@ -11,15 +11,6 @@ const passport = require("passport");
 const multer = require("multer");
 const path = require("path");
 
-
-// serve frontend build
-app.use(express.static(path.join(__dirname, "dist")));
-
-// handle React/Vite routing
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
-
 require("./auth/passport");
 
 // --------------------
@@ -28,10 +19,9 @@ require("./auth/passport");
 app.use(multer().none());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(express.static("public"));
 
 // --------------------
-// CORS (MUST BE BEFORE ROUTES)
+// CORS
 // --------------------
 app.use(
   cors({
@@ -42,16 +32,16 @@ app.use(
 );
 
 // --------------------
-// SESSION (FIXED)
+// SESSION
 // --------------------
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "dev_secret",
     resave: false,
-    saveUninitialized: false,   // 🔥 FIXED
+    saveUninitialized: false,
     cookie: {
       sameSite: "lax",
-      secure: false, // true only in production HTTPS
+      secure: false,
     },
   })
 );
@@ -72,18 +62,22 @@ app.use("/auth", authRoutes);
 app.use("/events", eventRoutes);
 
 // --------------------
+// STATIC FRONTEND (React/Vite build)
+// --------------------
+const distPath = path.join(__dirname, "dist");
+
+app.use(express.static(distPath));
+
+// IMPORTANT: SPA fallback (must be last)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
+// --------------------
 // START SERVER
 // --------------------
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log("Server listening on port: " + PORT + "!");
-});
-
-console.log("CLIENT_BASE_URL =", process.env.CLIENT_BASE_URL);
-
-app.use((req, res, next) => {
-  console.log("Session:", req.session);
-  console.log("User:", req.user);
-  next();
 });
