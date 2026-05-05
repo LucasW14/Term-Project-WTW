@@ -7,14 +7,16 @@ This project is a full-stack application with a React frontend and Node.js/Expre
 ## 🚀 1. Clone the Repository
 
 ```bash
-git clone <your-repo-link>
-cd <your-project-folder>
+git clone <(https://github.com/LucasW14/Term-Project-WTW.git)>
+cd <Term-Project-WTW>
 
 2.
 cd Term-Project- WTW/Backend
 node  --watch server.js
 
 3.
-cd Term-Project- WTW/Frontend
+cd Frontend/use-react-vite
 npm run dev
+
+
 
