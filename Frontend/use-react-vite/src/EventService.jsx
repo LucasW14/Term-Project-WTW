@@ -10,7 +10,7 @@ class EventService {
     getEventsByType(type) {
 
 
-        return axios.get(`${EVENT_API_URL}/${type}`);
+        return axios.get(`${EVENT_API_URL}/type/${type}`);
 
     }
 

@@ -12,6 +12,7 @@ useEffect(() => {
     if(type){
         EventService.getEventsByType(type).then((res) => {
 
+            console.log(res.data);
             setEvents(res.data);
             document.title = `${type} events`
 

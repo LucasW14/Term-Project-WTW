@@ -19,6 +19,7 @@ const navigate = useNavigate();
 
 const handleSubmit = (e) => {
     e.preventDefault();
+
     const event = { type, event_date, time_start, duration, location, planner, event_name, description, ticket_price};
     EventsService.addEvent(event).then(() => {
         navigate(`/events/type/${event.type}`)
