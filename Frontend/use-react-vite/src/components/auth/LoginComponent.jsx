@@ -8,9 +8,9 @@ function LoginComponent() {
 
   return (
 
-    <div class="header">
+    <div className="header">
 
-    <h1 className="header-top">🎉Whats The Word</h1>
+    <h3 className="header-top">🎉Sign into Whats The Word</h3>
 
        <button onClick={handleGoogleLogin}>
       Sign in with Google

@@ -98,7 +98,7 @@ const EventListComponent = () => {
             Search by Date
           </Link>
           <Link to="/events/location" className="btn primary">Search By Location </Link>
-          
+
         </div>
       </header>
 
@@ -124,6 +124,33 @@ const EventListComponent = () => {
               <Link to={`/events/${event.type}`} className="link">
                 View similar events →
               </Link>
+
+              {user?.email === "kayembewalton@gmail.com" && (
+                <>
+                <button
+                  className="delete"
+                  onClick={async () => {
+                    await fetch(`http://localhost:3000/events/delete/${event.id}`, {
+                      method: "DELETE",
+                      credentials: "include"
+                    });
+
+
+                    window.location.reload();
+                    // setEvents((prev) => prev.filter((e) => e.id !== event.id));
+                  }}
+                >
+                  Delete
+                </button>
+
+              <Link to={`/events/modify/${event.id}`} className="link">
+               Modify Event
+              </Link>
+                </>
+
+              )}
+            
+
 
             </article>
           ))

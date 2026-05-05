@@ -67,7 +67,19 @@ class EventService {
         return axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?city=${location}&apikey=${TICKET_MASTER_KEY}`)
     }
 
+     getEventById(id){
 
+
+
+        return axios.get(`${EVENT_API_URL}/id/${id}`)
+    }
+
+
+    updateEvent(id, updatedEvent){
+
+
+        return axios.put(`${EVENT_API_URL}/update/${id}`, updatedEvent);
+    }
 
 }
 
