@@ -3,11 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../index.css';
 
-const EventListByDateComponent = () => {
+const EventListByLocationComponent = () => {
+  const [location, setLocation] = useState("");
   const [events, setEvents] = useState([]);
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
 
   // useEffect(() => {
 
@@ -21,15 +19,17 @@ const EventListByDateComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("SUBMIT CLICKED", year, month, day);
+    console.log("SUBMIT CLICKED", location);
 
 
-    EventService.getEventsByDate(year, month, day).then((res) => {
-      console.log("heres data: ", res.data)
+    EventService.getEventsLocation(location).then((res) => {
+      const eventData = res.data._embedded?.events;
+      
 
-      setEvents(res.data);
+      setEvents(eventData);
       document.title = `Whats The Word`
-
+      console.log("heres data: ", events)
+      
 
     })
       .catch((error) => {
@@ -51,8 +51,6 @@ const EventListByDateComponent = () => {
         <div className="nav-buttons">
           <Link to="/events/" className="btn">Home</Link>
           <Link to="/events/newevent" className="btn primary">+ Add Event</Link>
-          <Link to="/events/location" className="btn primary">Search By Location </Link>
-
         </div>
 
 
@@ -62,18 +60,8 @@ const EventListByDateComponent = () => {
         <div id="date-search">
 
           <div>
-            <label>Year(YYYY)</label>
-            <input type="text" id="year" name="year" placeholder="year" onChange={(e) => setYear(e.target.value)} required />
-          </div>
-
-          <div>
-            <label>Month(MM)</label>
-            <input type="text" id="month" name="month" placeholder="month" onChange={(e) => setMonth(e.target.value)} />
-          </div>
-
-          <div>
-            <label>Day(DD)</label>
-            <input type="text" id="day" name="day" placeholder="day" onChange={(e) => setDay(e.target.value)} />
+            <label>Location(city)</label>
+            <input type="text" id="location" name="year" placeholder="location" onChange={(e) => setLocation(e.target.value)} required />
           </div>
 
           <button type="submit">Search</button>
@@ -87,14 +75,14 @@ const EventListByDateComponent = () => {
           <article className="card" key={event.id}>
             
             <div className="card-top">
-              <h2>{event.event_name}</h2>
+              <h2>{event.name}</h2>
               <span className="badge">{event.type}</span>
             </div>
 
-            <p className="date">📅 {event.event_date}</p>
-            <p className="location">📍 {event.location}</p>
+            <p className="date">📅 {event.dates.start.localDate}</p>
+            <p className="location">📍 {event._embedded.venues[0].name}</p>
 
-            <Link to={`/events/${event.type}`} className="link">
+            <Link to={`/events/${event._embedded.type}`} className="link">
               View similar events →
             </Link>
 
@@ -106,4 +94,4 @@ const EventListByDateComponent = () => {
   );
 };
 
-export default EventListByDateComponent;
+export default EventListByLocationComponent;

@@ -56,7 +56,8 @@ const EventListComponent = () => {
       <header className="header">
 
         <div className="header-top">
-          <h1>🎉 Events Hub</h1>
+          <h1>🎉 Whats The Word</h1>
+          <h3>Events Hub</h3>
 
           <div className="auth-box top-right">
             {user === undefined ? (
@@ -96,6 +97,8 @@ const EventListComponent = () => {
           <Link to="/events/bydate" className="btn primary">
             Search by Date
           </Link>
+          <Link to="/events/location" className="btn primary">Search By Location </Link>
+          
         </div>
       </header>
 

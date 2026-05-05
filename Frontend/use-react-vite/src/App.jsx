@@ -7,6 +7,7 @@ import EventTypeListComponent from './components/EventTypeListComponent';
 import EventListByDateComponent from './components/EventListByDateComponent';
 import LoginComponent from './components/auth/LoginComponent';
 import { Navigate } from 'react-router-dom';
+import EventListByLocationComponent from './components/EventByLocationComponent';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/events/" element={<EventListComponent />} />
         <Route path="/events/newevent" element={<AddEventComponent />} />
         <Route path="/events/bydate" element={<EventListByDateComponent />} />
+        <Route path="events/location" element={<EventListByLocationComponent />} />
         <Route path="/login" element={<LoginComponent />} />
         <Route path="/" element={<Navigate to="/login" />} />
 

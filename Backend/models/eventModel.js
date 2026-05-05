@@ -59,6 +59,17 @@ async function postEvent(type, event_date, time_start, duration, location, plann
     return result.rows;
 }
 
+  async function updateEvent (id, type, event_date, time_start, duration, location, planner, event_name, description, ticket_price) {
+    
+    let queryText = "UPDATE events SET type = $2, event_date = $3, time_start = $4, duration = $5, location = $6, planner = $7, event_name = $8, description = $9, ticket_price = $10 WHERE id = $1 RETURNING *";
+
+    let values = [type, event_date, time_start, duration, location, planner, event_name, description, ticket_price];
+    const result = await pool.query(queryText, values);
+    return result.rows;
+
+};
+
+
 
 
 module.exports = { 
@@ -66,7 +77,8 @@ module.exports = {
     getEventsByType,
     getAllEvents,
     postEvent,
-    getEventsByDate
+    getEventsByDate,
+    updateEvent
 
 
 

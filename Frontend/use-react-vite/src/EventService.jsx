@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const EVENT_API_URL = import.meta.env.VITE_API_URL;
+const TICKET_MASTER_KEY = import.meta.env.VITE_TICKET_MASTER_KEY;
 
 class EventService {
 
@@ -57,6 +58,13 @@ class EventService {
 
 
 
+    }
+
+    getEventsLocation(location){
+
+
+
+        return axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?city=${location}&apikey=${TICKET_MASTER_KEY}`)
     }
 
 

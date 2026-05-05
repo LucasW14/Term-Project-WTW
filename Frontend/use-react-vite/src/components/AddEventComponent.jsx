@@ -39,9 +39,24 @@ useEffect(() => {
   return(
  <div>
 
+    <div className="header">
+
+    <h1>🎉 Whats The Word</h1>
+
+
+    </div>
+
+
   <div className="row">
         <Link to="/events/" className="btn btn-outline-primary">Home</Link>
       </div>
+      <Link to="/events/newevent" className="btn primary">
+                  + Add Event
+                </Link>
+                <Link to="/events/bydate" className="btn primary">
+                  Search by Date
+                </Link>
+                <Link to="/events/location" className="btn primary">Search By Location </Link>
       
 
 
