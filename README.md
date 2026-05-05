@@ -19,5 +19,7 @@ node  --watch server.js
 cd Frontend/use-react-vite
 npm run dev
 
+deployed app url: https://term-project-wtw.onrender.com
+
 
 
