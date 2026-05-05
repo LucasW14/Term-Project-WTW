@@ -64,7 +64,7 @@ app.use("/events", eventRoutes);
 // --------------------
 // STATIC FRONTEND (React/Vite build)
 // --------------------
-const distPath = path.join(__dirname, "dist");
+const distPath = path.join(__dirname, "../Frontend/use-react-vite/dist");
 
 app.use(express.static(distPath));
 
